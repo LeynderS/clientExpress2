@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>
+    <%= title %>
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .custom-table {
+      background-color: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .custom-table th {
+      background-color: #320808;
+      color: #fff;
+    }
+
+    .custom-table td,
+    .custom-table th {
+      vertical-align: middle;
+    }
+
+    .img-preview {
+      width: 100px;
+      height: auto;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body class="bg-light">
+
+  <div class="container my-5">
+    <h1 class="text-center mb-4 text-primary fw-bold">
+      <%= title %>
+    </h1>
+
+    <a href="/photos/add" class="btn btn-secondary">Add New Photo</a>
+
+    <div class="table-responsive">
+      <table class="table custom-table text-center align-middle">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Calificación</th>
+            <th>Imagen</th>
+            <th>Fecha de creación</th>
+            <th>Etiquetas</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% arrFotos.forEach(foto=> { %>
+            <tr>
+              <td>
+                <%= foto.id %>
+              </td>
+              <td class="fw-semibold text-secondary">
+                <%= foto.titulo %>
+              </td>
+              <td class="text-muted">
+                <%= foto.descripcion %>
+              </td>
+              <td><span class="badge bg-success fs-6">
+                  <%= foto.calification %>
+                </span></td>
+              <td><img src="/<%= foto.ruta.replace('public/', '') %>" alt="Foto <%= foto.id %>" class="img-preview">
+              </td>
+              <td>
+                <%= new Date(foto.createdAt).toLocaleDateString() %>
+              </td>
+              <td>
+                <% if (foto.etiqueta && foto.etiqueta.length> 0) { %>
+                  <% foto.etiqueta.forEach(et=> { %>
+                    <span class="badge bg-secondary me-1">
+                      <%= et.texto %>
+                    </span>
+                    <% }) %>
+                      <% } else { %>
+                        <span class="text-muted">Sin etiquetas</span>
+                        <% } %>
+              </td>
+              <td>
+                <a href="/photos/edit/<%= foto.id %>" class="btn btn-warning btn-sm">Edit</a>
+                <a href="/photos/delete/<%= foto.id %>" class="btn btn-danger btn-sm">Delete</a>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
